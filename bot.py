@@ -125,4 +125,8 @@ async def on_message(message):
     elif message.content == 'Hvilket skema er det bedste?':
         await message.channel.send('Skema B, naturligvis.')
 
-client.run('NzAwNjQ1MDI3OTUyNDU5ODA3.XpmJ8w.YDnmXXd9bYuB1bNF3_54_taQNHc')
+with open('credentials.txt', 'r') as file:
+    credentials = file.read().replace('\n','')
+    file.close()
+
+client.run(credentials)

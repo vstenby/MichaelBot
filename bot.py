@@ -12,6 +12,9 @@ import youtube_dl
 #client = commands.Bot(command_prefix = 'Michael')
 client = commands.Bot(command_prefix = 'mbot ')
 
+#Auxillary functions.
+
+
 @client.event
 async def on_ready():
     print('MichaelBot er klar til at køre!')
@@ -31,7 +34,17 @@ async def leave(ctx):
 async def gauss(ctx):
     channel = ctx.message.author.voice.channel
     vc = await channel.connect()
-    vc.play(discord.FFmpegPCMAudio('gauss.mp3'), after=lambda e: print('done', e))
+    vc.play(discord.FFmpegPCMAudio('./resources/other/gauss.mp3'), after=lambda e: print('done', e))
+    while vc.is_playing():
+        await asyncio.sleep(1)
+    vc.stop()
+    await ctx.voice_client.disconnect()
+
+@client.command(pass_context=True, aliases=['TDB', 'tdb'])
+async def tdbshuffle(ctx):
+    channel = ctx.message.author.voice.channel
+    vc = await channel.connect()
+    vc.play(discord.FFmpegPCMAudio('./resources/songs/sålængejeglever.mp3'), after=lambda e: print('done', e))
     while vc.is_playing():
         await asyncio.sleep(1)
     vc.stop()
@@ -41,7 +54,7 @@ async def gauss(ctx):
 async def lofi(ctx):
     channel = ctx.message.author.voice.channel
     vc = await channel.connect()
-    vc.play(discord.FFmpegPCMAudio('lofi.mp3'), after=lambda e: print('done', e))
+    vc.play(discord.FFmpegPCMAudio('./resources/songs/lofi.mp3'), after=lambda e: print('done', e))
     while vc.is_playing():
         await asyncio.sleep(1)
     vc.stop()
@@ -49,7 +62,7 @@ async def lofi(ctx):
 
 @client.command(pass_context=True)
 async def eNote(ctx, arg):
-    enotes = pd.read_html('./files/enotes.html')[0]['Name']
+    enotes = pd.read_html('./resources/other/enotes.html')[0]['Name']
     url = 'https://01005.compute.dtu.dk/enotes/' + enotes[:].astype(str)
     arg = int(arg)
     return_url = url[arg-1]
@@ -75,6 +88,87 @@ async def Mat1Guessr(ctx):
     answer = str(df['Tekst'].loc[df['Nummer']==num].iloc[0])
     await ctx.channel.send('|| ' + answer + ' ||')
 
+@client.command(pass_context=True, aliases = ['kan'])
+async def Kan(ctx, *, arg):
+    if arg.lower() in 'i se det?' or arg.lower() in 'du se det?':
+        await ctx.channel.send('Ja, det kan jeg godt.')
+
+#Sound commands
+@client.command(pass_context=True, aliases=['Motorik'])
+async def motorik(ctx):
+    await ctx.channel.send(file=discord.File('./resources/gif/matrix.gif'))
+    channel = ctx.message.author.voice.channel
+    vc = await channel.connect()
+    vc.play(discord.FFmpegPCMAudio('./resources/soundfiles/den motoriske øvelse.mp4'), after=lambda e: print('done', e))
+    while vc.is_playing():
+        await asyncio.sleep(1)
+    vc.stop()
+    await ctx.voice_client.disconnect()
+
+
+@client.command(pass_context=True, aliases=['Soldater'])
+async def soldater(ctx):
+    channel = ctx.message.author.voice.channel
+    vc = await channel.connect()
+    vc.play(discord.FFmpegPCMAudio('./resources/soundfiles/soldater.mp4'), after=lambda e: print('done', e))
+    while vc.is_playing():
+        await asyncio.sleep(1)
+    vc.stop()
+    await ctx.voice_client.disconnect()
+
+@client.command(pass_context=True, aliases=['Tankvogn'])
+async def tankvogn(ctx):
+    channel = ctx.message.author.voice.channel
+    vc = await channel.connect()
+    vc.play(discord.FFmpegPCMAudio('./resources/soundfiles/tankvogn.mp4'), after=lambda e: print('done', e))
+    while vc.is_playing():
+        await asyncio.sleep(1)
+    vc.stop()
+    await ctx.voice_client.disconnect()
+
+@client.command(pass_context=True, aliases=['FDB'])
+async def fdb(ctx):
+    channel = ctx.message.author.voice.channel
+    vc = await channel.connect()
+    vc.play(discord.FFmpegPCMAudio('./resources/soundfiles/FDB.mp4'), after=lambda e: print('done', e))
+    while vc.is_playing():
+        await asyncio.sleep(1)
+    vc.stop()
+    await ctx.voice_client.disconnect()
+
+@client.command(pass_context=True)
+async def amiright(ctx):
+    channel = ctx.message.author.voice.channel
+    vc = await channel.connect()
+    vc.play(discord.FFmpegPCMAudio('./resources/soundfiles/amiright.mp4'), after=lambda e: print('done', e))
+    while vc.is_playing():
+        await asyncio.sleep(1)
+    vc.stop()
+    await ctx.voice_client.disconnect()
+
+@client.command(pass_context=True, aliases=['dadaaa', 'Dadaa', 'Dadaaa'])
+async def dadaa(ctx):
+    channel = ctx.message.author.voice.channel
+    vc = await channel.connect()
+    vc.play(discord.FFmpegPCMAudio('./resources/soundfiles/dadaa.mp4'), after=lambda e: print('done', e))
+    while vc.is_playing():
+        await asyncio.sleep(1)
+    vc.stop()
+    await ctx.voice_client.disconnect()
+
+@client.command(pass_context=True, aliases=['Opkast'])
+async def opkast(ctx):
+    channel = ctx.message.author.voice.channel
+    vc = await channel.connect()
+    vc.play(discord.FFmpegPCMAudio('./resources/soundfiles/opkast.mp4'), after=lambda e: print('done', e))
+    while vc.is_playing():
+        await asyncio.sleep(1)
+    vc.stop()
+    await ctx.voice_client.disconnect()
+
+
+
+#Drukspil-kommandoen.
 @client.command(pass_context=True)
 async def drukspil(ctx):
     embed = discord.Embed(
@@ -120,11 +214,14 @@ async def on_message(message):
         #Historien om Gauss skal fortælles.
         async with message.channel.typing():
             await message.channel.send('En endnu bedre historie som tager 1 minut at fortælle, det var hvad han gjorde som :four:-årig. Okay? Øhh - som :four:-årig gik han i skole sammen med resten af det gods han voksede op pås unger, og de havde selvfølgelig en privatlærer, fordi Gausses far var godsejer og meget velhavende. Okay? Og så skulle læreren drikke sin kaffe og læse sin avis eller et eller andet - han skulle ihvertfald have en pause, så han skulle finde på et eller andet at sætte de der unger til, så han sagde til dem: "Nu sætter I jer ned, nu lægger I alle tallene fra 1 til 100 sammen, og så sætter jeg mig og læser min avis." Og øjeblikkeligt rakte Gauss fingeren op og sagde: "Det bliver 5050". Og jeg ved ikke, om Gauss blev slået hårdt i hovedet eller fik hældt kaffen ud over sig eller sådan et eller andet, det kunne man jo nok godt forestille sig, ikke også? Læreren var fuldstændig målløs og sagde: "Hvad gjorde du?" "Jo, det er jo nemt nok. Fordi 1 plus 100, det er 101, 2 plus 99, det er 101, det kan jeg gøre 50 gange. 50 gange 101, det er 5050. Hvor svært kan det være?"')
-    elif message.content == 'Hvordan Gauss-eliminerer man?':
-        await message.channel.send(file=discord.File('./files/gauss_elimination.gif'))
     elif message.content == 'Hvilket skema er det bedste?':
         await message.channel.send('Skema B, naturligvis.')
-
+    elif message.content == "Må man poste memes endnu?":
+        await message.channel.send('Nej, først kl. 18 i aften. Det er jo uddannelsesdag indtil kl. 18.')
+    elif message.content == 'Kan vi høre en banger?':
+        await message.channel.send('Jeg sætter altså ikke "Vektor kom" på...')
+    elif message.content.lower() == 'hvordan ganger man matricer?':
+        await message.channel.send(file=discord.File('./resources/gif/matrix.gif'))
 with open('credentials.txt', 'r') as file:
     credentials = file.read().replace('\n','')
     file.close()

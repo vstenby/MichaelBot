@@ -33,7 +33,7 @@ class Music(commands.Cog):
             }],
         }
         if is_connected(ctx):
-            msg = error_message('music_already_playing')
+            msg = custom_msg('music_already_playing')
             await ctx.channel.send(msg)
         else:
             if not song_there:
@@ -65,7 +65,7 @@ class Music(commands.Cog):
             vc.stop()
             await ctx.voice_client.disconnect()
         else:
-            msg = error_message('unknown_mp3')
+            msg = custom_msg('unknown_mp3')
             await ctx.channel.send(msg)
 
 def setup(client):

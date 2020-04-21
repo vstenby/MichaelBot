@@ -1,0 +1,24 @@
+music_already_playing
+Desværre mester - du må vente på, at det bliver din tur ved jukeboksen.
+Du må vente på, at det bliver din tur. Desværre kammerat.
+Dengang jeg gik på disco, der ventede man altså på, at det blev ens tur...
+Is på, matros - lad os lige høre den her færdig først.
+
+download_song
+Åh forhelvede, den skal jeg lige have støvet frem. Giv mig lige to minutter.
+Hmm, jeg plejede at have den på vinyl, men den skal jeg måske lige have hentet ned på computeren...
+Åh nej, hjælp - moar. Hyl og skrig, den har jeg ikke liggende... Hvordan gør man nu det her...
+
+bom1_no_clip
+Desværre kammerat - den kan jeg ikke lige finde. Det må du sgu undskylde.
+Den kan jeg altså ikke finde. Har du stavet forkert måske?
+
+bom1_clip_success
+Det er altså også et godt klip! Det får du lige her!
+Det kunne jeg godt støve frem. Jeg sender det nu!
+Åh, det er simpelthen for pinligt... Du får den dog her.
+
+unknown_mp3
+Den kender jeg altså ikke. Måske har du stavet forkert?
+Den mindes jeg altså ikke at have liggende. 
+

@@ -20,12 +20,15 @@ class Bom1(commands.Cog):
         else:
             path = str_to_bom1(arg, df_bom1)
             if path == '':
-                await ctx.channel.send('Den kan jeg desværre ikke finde.')
+                msg = custom_msg('bom1_no_clip')
+                await ctx.channel.send(msg)
             else:
-                try:
-                    await ctx.channel.send(file=discord.File(path))
-                except:
-                    await ctx.channel.send('Desværre - den er for stor til Discord.')
+                msg = custom_msg('bom1_clip_success')
+                await ctx.channel.send(msg)
+                #try:
+                await ctx.channel.send(file=discord.File(path))
+                #except:
+                #    await ctx.channel.send('Desværre - den er for stor til Discord.')
 
 def setup(client):
     client.add_cog(Bom1(client))

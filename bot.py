@@ -15,6 +15,10 @@ from functions import *
 prefix = '_mb '
 client = commands.Bot(command_prefix = prefix)
 
+@client.event
+async def on_member_join(member):
+    print(f'Velkommen til bænken, {member}.'.encode('utf-8'))
+
 @client.command(pass_context=True, brief='MichaelBot joins your server.')
 async def join(ctx):
     if ctx.message.author.voice:

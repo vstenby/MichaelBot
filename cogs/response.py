@@ -1,8 +1,10 @@
+#Dependencies for the Response cog
 import discord
 from discord.ext import commands
 import random
-from mbot_auxil import *
 import pandas as pd
+from functions import *
+
 class Response(commands.Cog):
 
     def __init__(self, client):

@@ -1,9 +1,10 @@
+#Dependencies for the music cog.
 import discord
 from discord.ext import commands
-from mbot_auxil import *
 import youtube_dl
 from discord.utils import get
 import asyncio
+from functions import *
 
 def is_connected(ctx):
     voice_client = get(ctx.bot.voice_clients, guild=ctx.guild)

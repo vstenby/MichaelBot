@@ -1,6 +1,9 @@
+#Dependencies for the Best of Mat 1-cog.
 import discord
 from discord.ext import commands
-from mbot_auxil import *
+from functions import *
+
+#Dataframe is loaded whenever the cog is loaded/reloaded.
 df_bom1 = load_bom1()
 
 class Bom1(commands.Cog):

@@ -146,9 +146,9 @@ def stream_wait_msg():
 
 def load_QA():
     #Returns the answer based on the message sent in the chat.
-    file = open('./resources/QA.txt', 'r')
+    file = open('./resources/txt/QA.txt', 'r')
     lines = file.readlines()
-    
+    lines = [x for x in lines if x[0] != '#'] #removes start comments
     Q = [x.replace('Q:', '').replace('\n', '').strip() for x in lines if x[:2] == 'Q:']
     A = [x.replace('A:', '').replace('\n', '').strip() for x in lines if x[:2] == 'A:']
     

@@ -9,7 +9,7 @@ import os
 import random
 
 #Auxillary functions.
-from mbot_auxil import *
+from functions import *
 
 #Set the prefix of the bot here.
 prefix = '_mb '

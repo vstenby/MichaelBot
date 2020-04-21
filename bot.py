@@ -48,6 +48,12 @@ for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
+@cleitn.command()
+async def servers():
+  servers = list(client.servers)
+  await bot.say(f"Connected on {str(len(servers))} servers:")
+  await bot.say('\n'.join(server.name for server in servers))
+
 @client.event
 async def on_ready():
     print('MichaelBot is online!')

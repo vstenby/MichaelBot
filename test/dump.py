@@ -1,13 +1,5 @@
 
 @client.event
-async def on_member_join(member):
-    print(f'Godmorgen {member} - så er det kraftedenme fredagsbøn.'.encode('utf-8'))
-
-@client.event
-async def on_remember_remove(member):
-    print(f'Så for satan - {member} er blevet smidt ud.'.encode('utf-8'))
-
-@client.event
 async def on_message(message):
     if message.content == 'Fortæl historien om Gauss':
         #Historien om Gauss skal fortælles.

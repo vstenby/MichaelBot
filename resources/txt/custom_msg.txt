@@ -21,3 +21,6 @@ Det kunne jeg godt støve frem. Jeg sender det nu!
 unknown_mp3
 Den kender jeg altså ikke. Måske har du stavet forkert?
 Den mindes jeg altså ikke at have liggende. 
+
+music_in_queue
+Forstået - den ryger i queue.

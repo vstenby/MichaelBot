@@ -18,8 +18,24 @@ class Music(commands.Cog):
     #Commands from the Music cog.
     @commands.command(brief='Play music through YouTube.',
                       description="MichaelBot's YouTube-player.\nUsage: _mb yt <url> or _mb yt <search phrase>")
-    async def yt(self, ctx):
-        url, song_id = get_youtube_id(ctx.message.content)
+    async def p(self, ctx):
+        add_to_queue = False
+        msg = ctx.message.content
+        #Removing the yt command from the message.
+        msg = ' '.join(msg.split(' ')[1:])
+        if 'queue' or 'q ' in msg.lower():
+            #If the command is <prefix> yt <queue/q> <url/search>, then it should be added to the queue.
+            add_to_queue = True
+            msg = ' '.join(msg.split(' ')[1:])
+        elif 'skip ' or 'skip' in msg.lower():
+            print('Forstår godt du vil skippe.')
+            msg = ' '.join(msg.split(' ')[1:])
+            #The playing song should be skipped, and the next song should be played.
+            channel = ctx.message.author.voice.channel
+            vc = await channel.connect()
+            if vc.is_playing():
+                vc.stop()
+        url, song_id = get_youtube_id(msg)
         song_path = './resources/yt/' + song_id + '.mp3'
         song_there = os.path.isfile(song_path)
         voice = get(ctx.bot.voice_clients, guild=ctx.guild)
@@ -33,14 +49,20 @@ class Music(commands.Cog):
             }],
         }
         if is_connected(ctx):
-            msg = custom_msg('music_already_playing')
-            await ctx.channel.send(msg)
+            if add_to_queue:
+                #Then the song should be added to the queue.
+                add_to_queue(ID)
+                msg = custom_msg('music_in_queue')
+                await ctx.channel.send(msg)
         else:
             if not song_there:
-                wait_msg = stream_wait_msg()
+                wait_msg = custom_msg('download_song')
                 await ctx.send(wait_msg)
-                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                    ydl.download([url])
+                try:
+                    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                        ydl.download([url])
+                except DownloadError:
+                    await ctx.send('Desværre - den måtte jeg ikke downloade...')
             channel = ctx.message.author.voice.channel
             vc = await channel.connect()
             await ctx.channel.send('**Afspiller: ' + url + '**')
@@ -51,7 +73,7 @@ class Music(commands.Cog):
             await ctx.voice_client.disconnect()
 
     @commands.command(aliases=['P', 'play'], brief='Play various small clips in the voice channel.')
-    async def p(self, ctx, *, arg):
+    async def mp3(self, ctx, *, arg):
         mp3s = load_mp3s()
         mp3 = str_to_mp3(arg, mp3s)
         if mp3 != '':
@@ -64,9 +86,15 @@ class Music(commands.Cog):
                 await asyncio.sleep(1)
             vc.stop()
             await ctx.voice_client.disconnect()
+        elif arg.lower() == 'list':
+            #Display the lists of mp3s to be played.
+            await ctx.channel.send(mp3s)
         else:
             msg = custom_msg('unknown_mp3')
             await ctx.channel.send(msg)
+
+
+
 
 def setup(client):
     client.add_cog(Music(client))

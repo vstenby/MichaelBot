@@ -16,3 +16,5 @@
 Q: Hej Michael - hvordan går det i dag?
 A: Åh, det går nu meget godt!;Tak fordi du spørger - det går sgu godt!;Jeg ved ikke med dig, men her går det nu meget godt!
 
+Q: Er Krogh en brade?
+A: En kæmpe brade.;Om han er?;Største brade verdenen kender til.

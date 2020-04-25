@@ -43,16 +43,19 @@ async def reload(ctx, extension):
     client.unload_extension(f'cogs.{extension}')
     client.load_extension(f'cogs.{extension}')
 
+@client.command(brief = 'Reboots MichaelBot')
+async def reboot(ctx):
+    import sys
+    print('MichaelBot is rebooting...')
+    os.execv(sys.executable, ['python'] + sys.argv)
+
+
+
 #Loads all of the extentions upon starting.
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
-@cleitn.command()
-async def servers():
-  servers = list(client.servers)
-  await bot.say(f"Connected on {str(len(servers))} servers:")
-  await bot.say('\n'.join(server.name for server in servers))
 
 @client.event
 async def on_ready():

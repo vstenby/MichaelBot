@@ -1,0 +1,26 @@
+# This file is for making the p command work to play local mp3s. 
+# The setup for this file is the command to the left, and then the path to the 
+# corresponding soundpath to the right. 
+# All comments must start with # in this file.
+
+### Random ###
+
+kan i se det, random_sedet
+kan du se det, random_sedet
+
+### Quotes ###
+
+gauss, ./resources/soundfiles/gauss.mp3
+opkast, ./resources/soundfiles/opkast.mp4
+soldater, ./resources/soundfiles/soldater.mp4
+tankvogn, ./resources/soundfiles/tankvogn.mp4
+fdb, ./resources/soundfiles/fdb.mp4
+har jeg ret, ./resources/soundfiles/amiright.mp4
+motorik, ./resources/soundfiles/den motoriske øvelse.mp4
+dadaa, ./resources/soundfiles/dadaa.mp4
+
+### Local songs ###
+
+lofi, ./resources/soundfiles/lofi.mp3
+rip, ./resources/soundfiles/rip.mp3
+

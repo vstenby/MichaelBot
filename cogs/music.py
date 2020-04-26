@@ -14,6 +14,10 @@ class Music(commands.Cog):
 
     def __init__(self, client):
         self.client = client
+        self.vc = ''
+        self.queue = []
+        self.channel = ''
+
 
     #Commands from the Music cog.
     @commands.command(brief='Play music through YouTube.',
@@ -28,13 +32,11 @@ class Music(commands.Cog):
             add_to_queue = True
             msg = ' '.join(msg.split(' ')[1:])
         elif 'skip ' or 'skip' in msg.lower():
-            print('Forstår godt du vil skippe.')
+            print('Skip.')
             msg = ' '.join(msg.split(' ')[1:])
-            #The playing song should be skipped, and the next song should be played.
-            channel = ctx.message.author.voice.channel
-            vc = await channel.connect()
-            if vc.is_playing():
-                vc.stop()
+            if self.channel != '': self.vc.stop()
+
+
         url, song_id = get_youtube_id(msg)
         song_path = './resources/yt/' + song_id + '.mp3'
         song_there = os.path.isfile(song_path)
@@ -63,13 +65,15 @@ class Music(commands.Cog):
                         ydl.download([url])
                 except DownloadError:
                     await ctx.send('Desværre - den måtte jeg ikke downloade...')
-            channel = ctx.message.author.voice.channel
-            vc = await channel.connect()
+            self.channel = ctx.message.author.voice.channel
+            self.vc = await self.channel.connect()
             await ctx.channel.send('**Afspiller: ' + url + '**')
-            vc.play(discord.FFmpegPCMAudio(song_path), after=lambda e: print('done', e))
-            while vc.is_playing():
+            self.vc.play(discord.FFmpegPCMAudio(song_path), after=lambda e: print('done', e))
+            while self.vc.is_playing():
                 await asyncio.sleep(1)
-            vc.stop()
+            self.vc.stop()
+            self.channel = ''
+            self.vc = ''
             await ctx.voice_client.disconnect()
 
     @commands.command(aliases=['P', 'play'], brief='Play various small clips in the voice channel.')
@@ -93,6 +97,14 @@ class Music(commands.Cog):
             msg = custom_msg('unknown_mp3')
             await ctx.channel.send(msg)
 
+    @commands.command(brief = 'Skips the current song')
+    async def skip(self, ctx):
+    @commands.command()
+    async def status(self, ctx):
+        print(self.client)
+        print(self.vc)
+        print(self.queue)
+        print(self.channel)
 
 
 

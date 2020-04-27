@@ -21,5 +21,5 @@ dadaa, ./resources/soundfiles/dadaa.mp4
 
 ### Local songs ###
 
-lofi, ./resources/soundfiles/lofi.mp3
+lofi, ./resources/songs/lofi.mp3
 rip, ./resources/songs/astronomia.mp3

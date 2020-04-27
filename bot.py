@@ -21,29 +21,22 @@ client = commands.Bot(command_prefix = prefix)
 async def on_member_join(member):
     print(f'Velkommen til bænken, {member}.'.encode('utf-8'))
 
-@client.command(pass_context=True, brief='MichaelBot joins your server.')
-async def join(ctx):
-    if ctx.message.author.voice:
-        channel = ctx.message.author.voice.channel
-        await channel.connect()
-
-@client.command(aliases=['ses', 'stop'],pass_context=True, brief='MichaelBot leaves your sever')
-async def leave(ctx):
-    await ctx.voice_client.disconnect()
-
 #Loads extentions (i.e. cogs)
 @client.command(brief='Loads extentions')
 async def load(ctx, extension):
     client.load_extension(f'cogs.{extension}')
+    print(extension + ' sucessfully loaded')
 
 @client.command(brief='Unloads extentions')
 async def unload(ctx, extension):
     client.unload_extension(f'cogs.{extension}')
+    print(extension + ' sucessfully unloaded')
 
 @client.command(brief = 'Reloads extentions')
 async def reload(ctx, extension):
     client.unload_extension(f'cogs.{extension}')
     client.load_extension(f'cogs.{extension}')
+    print(extension + ' succesfully reloaded')
 
 @client.command(brief = 'Reboots MichaelBot')
 async def reboot(ctx):
@@ -62,6 +55,8 @@ for filename in os.listdir('./cogs'):
 @client.event
 async def on_ready():
     print('MichaelBot is online!')
+
+
 
 #Make sure you have credentials.txt in your folder when running the bot.
 #This can be gotten from Discord's developer site.

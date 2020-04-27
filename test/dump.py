@@ -34,3 +34,63 @@ async def on_message(message):
     answ = QA(message.content, q, a)
     if answ != '':
         await message.channel.send(answ)
+
+######################
+
+
+
+    #Commands from the Music cog.
+    @commands.command(brief='Play music through YouTube.',
+                      description="MichaelBot's YouTube-player.\nUsage: _mb yt <url> or _mb yt <search phrase>")
+    async def p(self, ctx):
+        add_to_queue = False
+        msg = ctx.message.content
+        #Removing the yt command from the message.
+        msg = ' '.join(msg.split(' ')[1:])
+        if 'queue' or 'q ' in msg.lower():
+            #If the command is <prefix> yt <queue/q> <url/search>, then it should be added to the queue.
+            add_to_queue = True
+            msg = ' '.join(msg.split(' ')[1:])
+        elif 'skip ' or 'skip' in msg.lower():
+            print('Skip.')
+            msg = ' '.join(msg.split(' ')[1:])
+            if self.channel != '': self.vc.stop()
+
+        url, song_id = get_youtube_id(msg)
+        song_path = './resources/yt/' + song_id + '.mp3'
+        song_there = os.path.isfile(song_path)
+        voice = get(ctx.bot.voice_clients, guild=ctx.guild)
+        ydl_opts = {
+            'cachedir': False,
+            'format': 'bestaudio/best',
+            'outtmpl' : song_path,
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
+            }],
+        }
+        if is_connected(ctx):
+            if add_to_queue:
+                #Then the song should be added to the queue.
+                add_to_queue(ID)
+                msg = custom_msg('music_in_queue')
+                await ctx.channel.send(msg)
+        else:
+            if not song_there:
+                wait_msg = custom_msg('download_song')
+                await ctx.send(wait_msg)
+
+                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([url])
+
+            self.channel = ctx.message.author.voice.channel
+            self.vc = await self.channel.connect()
+            await ctx.channel.send('**Afspiller: ' + url + '**')
+            self.vc.play(discord.FFmpegPCMAudio(song_path), after=lambda e: print('done', e))
+            while self.vc.is_playing():
+                await asyncio.sleep(1)
+            self.vc.stop()
+            self.channel = ''
+            self.vc = ''
+            await ctx.voice_client.disconnect()

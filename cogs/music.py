@@ -141,7 +141,7 @@ class Music(commands.Cog):
                 self.counter +=1
             elif not self.vc.is_playing():
                 self.counter +=1
-            if self.counter > 2: print('Michael leaves the server in: ' + str(5-self.counter))
+            if self.counter > 2: print('Michael leaves the channel in: ' + str(5-self.counter))
 
         if self.counter == 5:
             #The bot should disconnect from the channel after 10 seconds.
@@ -151,7 +151,7 @@ class Music(commands.Cog):
             self.counter = 0
             self.server = None
 
-    @commands.command(brief='Play local song files')
+    @commands.command(brief='Play local song files.')
     async def pl(self, ctx, *, arg):
         mp3s = load_mp3s()
         mp3 = str_to_mp3(arg, mp3s)

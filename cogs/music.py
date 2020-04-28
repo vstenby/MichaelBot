@@ -158,7 +158,7 @@ class Music(commands.Cog):
 
     @tasks.loop(seconds=1)
     async def play_music(self):
-        #print('test')
+        print('test')
 
         if self.vc is not None:
             if self.vc.is_playing():

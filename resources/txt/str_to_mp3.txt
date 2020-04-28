@@ -7,6 +7,7 @@
 
 kan i se det, random_sedet
 kan du se det, random_sedet
+enhedsæg, random_enhedsæg
 
 ### Quotes ###
 
@@ -18,6 +19,13 @@ fdb, ./resources/soundfiles/fdb.mp4
 har jeg ret, ./resources/soundfiles/amiright.mp4
 motorik, ./resources/soundfiles/den motoriske øvelse.mp4
 dadaa, ./resources/soundfiles/dadaa.mp4
+mona lisa, ./resources/soundfiles/mona lisa.mp4
+et langt eksempel, ./resources/soundfiles/et langt eksempel.mp4
+trappeformen, ./resources/soundfiles/trappeformen.mp4
+ReducedRowEchelonForm, ./resources/soundfiles/ReducedRowEchelonForm.mp4
+bombetrussel, ./resources/soundfiles/bombetrussel.mp4
+Mængden af alle mængder, ./resources/soundfiles/mængden af alle mængder.mp4
+Løvejagt, ./resources/soundfiles/løvejagt.mp4
 
 ### Local songs ###
 

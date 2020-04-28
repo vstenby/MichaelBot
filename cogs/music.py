@@ -7,6 +7,7 @@ import asyncio
 from functions import *
 import asyncio
 import time
+import csv
 
 def is_connected(ctx):
     voice_client = get(ctx.bot.voice_clients, guild=ctx.guild)
@@ -56,6 +57,7 @@ class Music(commands.Cog):
         self.server = None
     def cog_unload(self):
         self.play_music.cancel()
+        self.pointcounter = 0
 
     @commands.command(brief='MichaelBot joins your server.')
     async def join(self, ctx):
@@ -123,8 +125,41 @@ class Music(commands.Cog):
             if self.vc.is_playing():
                 self.vc.stop()
 
+    @commands.command(brief='Play local song files.')
+    async def pl(self, ctx, *, arg):
+        mp3s = load_mp3s()
+        mp3 = str_to_mp3(arg, mp3s)
+        if mp3 != '':
+            file = MBot_Audio(mp3)
+
+            if 'motoriske' in mp3: await ctx.channel.send(file=discord.File('./resources/gif/matrix.gif'))
+            channel = ctx.message.author.voice.channel
+            self.vc = await channel.connect()
+            file.play(self.vc)
+            while self.vc.is_playing():
+                await asyncio.sleep(1)
+            self.vc.stop()
+            await ctx.voice_client.disconnect()
+            self.vc = None
+        elif arg.lower() == 'list':
+        #Display the lists of mp3s to be played.
+            await ctx.channel.send(mp3s)
+        else:
+            msg = custom_msg('unknown_mp3')
+            await ctx.channel.send(msg)
+
+    #@commands.command(brief='Gamble your hard earned MichaelBucks')
+    #async def roll(self, ctx, *, arg):
+    #    try:
+    #        val = int(arg)
+    #    except:
+    #        await ctx.channel.send('Du skal indtaste et beløb, du gerne vil rolle.')
+
+
     @tasks.loop(seconds=1)
     async def play_music(self):
+        #print('test')
+
         if self.vc is not None:
             if self.vc.is_playing():
                 #The bot is playing, and everything is fine.
@@ -150,29 +185,6 @@ class Music(commands.Cog):
             self.channel = None
             self.counter = 0
             self.server = None
-
-    @commands.command(brief='Play local song files.')
-    async def pl(self, ctx, *, arg):
-        mp3s = load_mp3s()
-        mp3 = str_to_mp3(arg, mp3s)
-        if mp3 != '':
-            file = MBot_Audio(mp3)
-
-            if 'motoriske' in mp3: await ctx.channel.send(file=discord.File('./resources/gif/matrix.gif'))
-            channel = ctx.message.author.voice.channel
-            self.vc = await channel.connect()
-            file.play(self.vc)
-            while self.vc.is_playing():
-                await asyncio.sleep(1)
-            self.vc.stop()
-            await ctx.voice_client.disconnect()
-            self.vc = None
-        elif arg.lower() == 'list':
-        #Display the lists of mp3s to be played.
-            await ctx.channel.send(mp3s)
-        else:
-            msg = custom_msg('unknown_mp3')
-            await ctx.channel.send(msg)
 
 def setup(client):
     client.add_cog(Music(client))

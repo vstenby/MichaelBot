@@ -94,3 +94,19 @@ async def on_message(message):
             self.channel = ''
             self.vc = ''
             await ctx.voice_client.disconnect()
+            
+print('test2')
+if self.pointcounter == 0:
+    df_points = load_points()
+    members = self.channel.members
+    df_points = add_points(df_points, members)
+    print('Points loaded and added.')
+elif self.pointcounter == 10:
+    save_points(df_points)
+    self.pointcounter = 0
+    print('Points saved')
+else:
+    df_points = add_points(df_points, members)
+    print('Points added')
+
+self.pointcounter += 1

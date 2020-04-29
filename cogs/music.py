@@ -9,6 +9,8 @@ import asyncio
 import time
 import csv
 
+
+
 def is_connected(ctx):
     voice_client = get(ctx.bot.voice_clients, guild=ctx.guild)
     return voice_client and voice_client.is_connected()
@@ -55,9 +57,11 @@ class Music(commands.Cog):
         self.play_music.start()
         self.counter = 0
         self.server = None
+        self.pointcounter = 1
+
     def cog_unload(self):
         self.play_music.cancel()
-        self.pointcounter = 0
+
 
     @commands.command(brief='MichaelBot joins your server.')
     async def join(self, ctx):
@@ -143,7 +147,8 @@ class Music(commands.Cog):
             self.vc = None
         elif arg.lower() == 'list':
         #Display the lists of mp3s to be played.
-            await ctx.channel.send(mp3s)
+            s = list_mp3s()
+            await ctx.channel.send(s)
         else:
             msg = custom_msg('unknown_mp3')
             await ctx.channel.send(msg)
@@ -155,15 +160,22 @@ class Music(commands.Cog):
     #    except:
     #        await ctx.channel.send('Du skal indtaste et beløb, du gerne vil rolle.')
 
+    @commands.command(brief='List all members')
+    async def addpoints(self, ctx):
+        df_points = load_points()
+        members = self.channel.members
+        df_points = add_points(df_points, members)
+        save_points(df_points)
 
     @tasks.loop(seconds=1)
     async def play_music(self):
-        print('test')
-
         if self.vc is not None:
             if self.vc.is_playing():
-                #The bot is playing, and everything is fine.
                 self.counter = 0
+                self.pointcounter += 1
+                
+                if self.pointcounter == 10: self.pointcounter = 0
+
             elif not is_queue_empty():
                 #The bot is not playing and the queue is not empty. We should play the next song.
                 path = fetch_from_queue()

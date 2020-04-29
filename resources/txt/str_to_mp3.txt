@@ -5,27 +5,65 @@
 
 ### Random ###
 
-kan i se det, random_sedet
-kan du se det, random_sedet
-enhedsæg, random_enhedsæg
+Kan I se det, random_sedet
+Enhedsæg, random_enhedsæg
 
 ### Quotes ###
 
-gauss, ./resources/soundfiles/gauss.mp3
-opkast, ./resources/soundfiles/opkast.mp4
-soldater, ./resources/soundfiles/soldater.mp4
-tankvogn, ./resources/soundfiles/tankvogn.mp4
-fdb, ./resources/soundfiles/fdb.mp4
-har jeg ret, ./resources/soundfiles/amiright.mp4
-motorik, ./resources/soundfiles/den motoriske øvelse.mp4
-dadaa, ./resources/soundfiles/dadaa.mp4
-mona lisa, ./resources/soundfiles/mona lisa.mp4
-et langt eksempel, ./resources/soundfiles/et langt eksempel.mp4
-trappeformen, ./resources/soundfiles/trappeformen.mp4
+Gauss, ./resources/soundfiles/gauss.mp3
+Opkast, ./resources/soundfiles/opkast.mp4
+Soldater, ./resources/soundfiles/soldater.mp4
+Tankvogn, ./resources/soundfiles/tankvogn.mp4
+FDB, ./resources/soundfiles/fdb.mp4
+Har jeg ret, ./resources/soundfiles/amiright.mp4
+Motorik, ./resources/soundfiles/den motoriske øvelse.mp4
+Dadaa, ./resources/soundfiles/dadaa.mp4
+Mona lisa, ./resources/soundfiles/mona lisa.mp4
+Et langt eksempel, ./resources/soundfiles/et langt eksempel.mp4
+Trappeformen, ./resources/soundfiles/trappeformen.mp4
 ReducedRowEchelonForm, ./resources/soundfiles/ReducedRowEchelonForm.mp4
-bombetrussel, ./resources/soundfiles/bombetrussel.mp4
+Bombetrussel, ./resources/soundfiles/bombetrussel.mp4
 Mængden af alle mængder, ./resources/soundfiles/mængden af alle mængder.mp4
 Løvejagt, ./resources/soundfiles/løvejagt.mp4
+A nasty fætter, ./resources/soundfiles/A nasty fætter.mp4
+Ahh, ./resources/soundfiles/Ahh.mp4
+Bue og pil, ./resources/soundfiles/Bue og pil.mp4
+Determinant, ./resources/soundfiles/D E T E R M I N A N T.mp4
+Den Lokale Bodega, ./resources/soundfiles/Den Lokale Bodega.mp4
+Det er en kommando i Maple, ./resources/soundfiles/Det er en kommando i Maple.mp4
+Det er jo trodsalt fredag, ./resources/soundfiles/Det er jo trodsalt fredag.mp4
+Durk til helvede, ./resources/soundfiles/Durk til helvede.mp4
+En bedre måde at starte en fredag på, ./resources/soundfiles/startefredag.mp4
+En fjerdegradsligning, ./resources/soundfiles/En fjerdegradsligning.mp4
+Et sug af habaneseren, ./resources/soundfiles/Et sug af habaneseren.mp4
+Europas svar på MIT, ./resources/soundfiles/Europas svar på MIT.mp4
+Fool - go home, ./resources/soundfiles/Fool go home.mp4
+Fredagsting, ./resources/soundfiles/Fredagsting.mp4
+Gæt, ./resources/soundfiles/Gæt.mp4
+Halvbrandert, ./resources/soundfiles/Halvbrandert.mp4
+Hurra, ./resources/soundfiles/Hurra.mp4
+Hvor svært det er at integrere, ./resources/soundfiles/integrere.mp4
+Hvorfor fanden går jeg ikke i gang, ./resources/soundfiles/gå i gang.mp4
+Hyggedag, ./resources/soundfiles/Hyggedag.mp4
+Integration er svært, ./resources/soundfiles/Integration er svært.mp4
+Kolde øl på bænken, ./resources/soundfiles/Kolde øl på bænken.mp4
+Lige så nemt, ./resources/soundfiles/Lige så nemt.mp4
+Lommeregner, ./resources/soundfiles/Lommmeregner.mp4
+Lottokuponer, ./resources/soundfiles/Lottokuponer.mp4
+Lys og Maple, ./resources/soundfiles/Lys og Maple.mp4
+Morgenbitter, ./resources/soundfiles/Morgenbitter.mp4
+Morgenfadøl, ./resources/soundfiles/Morgenfadøl.mp4
+Nede på Den Lokale Bodega, ./resources/soundfiles/Nede på Den Lokale Bodega.mp4
+Nulrer funktionen, ./resources/soundfiles/Nulrer funktionen.mp4
+OK Bingo, ./resources/soundfiles/OK Bingo.mp4
+Platte vittigheder, ./resources/soundfiles/Platte vittigheder.mp4
+Saddelpunkt, ./resources/soundfiles/Saddelpunkt.mp4
+Sjovere og sjovere, ./resources/soundfiles/Sjovere og sjovere.mp4
+Gradientvektorfelt, ./resources/soundfiles/gradientvektorfelt.mp4
+Ællebælleregning, ./resources/soundfiles/Ællebælleregning.mp4
+Øde Ø, ./resources/soundfiles/Øde Ø.mp4
+Øf øf, ./resources/soundfiles/Øf øf.mp4
+R4, ./resources/soundfiles/R4.mp4
 
 ### Local songs ###
 

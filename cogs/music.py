@@ -117,9 +117,7 @@ class Music(commands.Cog):
         #try:
         #    arg = float(arg)
         #    if 0 < arg and arg < 1:
-        #        arg = arg * bank(str(ctx.author), self.df)
-            
-                
+        #        arg = arg * bank(str(ctx.author), self.df) 
         
         try:
             n = int(arg)

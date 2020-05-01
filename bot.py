@@ -44,7 +44,7 @@ async def reboot(ctx):
 
 #Loads all of the extentions upon starting.
 for filename in os.listdir('./cogs'):
-    if filename.endswith('.py') and filename != 'game.py':
+    if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
 @client.event

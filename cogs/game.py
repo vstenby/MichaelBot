@@ -45,7 +45,7 @@ class Game(commands.Cog):
         #try:
         #    arg = float(arg)
         #    if 0 < arg and arg < 1:
-        #        arg = arg * bank(str(ctx.author), self.df)
+        #        arg = arg * bank(str(ctx.author), self.pointdf)
 
         try:
             n = int(arg)
@@ -53,7 +53,7 @@ class Game(commands.Cog):
                 await ctx.channel.send('Du kan ikke gamble et negativt antal.')
                 return
 
-            self.df, val = gamble(str(ctx.author), self.pointdf, n)
+            self.pointdf, val = gamble(str(ctx.author), self.pointdf, n)
             if val is None:
                 await ctx.channel.send('Du kan ikke gamble med så meget.')
             elif val is True:
@@ -68,13 +68,13 @@ class Game(commands.Cog):
 
     @commands.command(brief = 'Check how many MichaelBucks you have in the bank.')
     async def bank(self, ctx):
-        p = bank(str(ctx.author), self.df)
+        p = bank(str(ctx.author), self.pointdf)
         await ctx.channel.send('Du har ' + str(p) + ' MichaelBucks til rådighed.')
 
     @commands.command(brief = 'Graph your MichaelBucks')
     async def graph(self, ctx):
         #Generates the graph based on the user.
-        graph(str(ctx.author), self.df)
+        graph(str(ctx.author), self.pointdf)
         asyncio.sleep(0.5)
         await ctx.channel.send(file=discord.File('./resources/other/temp.png'))
 
@@ -86,7 +86,7 @@ class Game(commands.Cog):
         if amount <= 0:
             await ctx.channel.send('Du kan ikke sende et negativt beløb.')
         else:
-            self.df, rtrn = donate_points(sender_str, reciever_str, amount, self.df)
+            self.pointdf, rtrn = donate_points(sender_str, reciever_str, amount, self.pointdf)
             if rtrn is True:
                 await ctx.channel.send('Overførslen er gået igennem!')
             elif rtrn == -1:
@@ -98,7 +98,7 @@ class Game(commands.Cog):
 
     @commands.command(brief = 'Prints the highscore')
     async def highscore(self, ctx):
-        s = highscore(self.df)
+        s = highscore(self.pointdf)
         await ctx.channel.send(s)
 
 

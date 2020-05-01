@@ -291,6 +291,8 @@ def gamble(user, df, n):
     if type(n) is str:
         if n.lower() == 'max':
             n = p
+        elif n.lower() == 'random':
+            n = random.randint(1,p)
     
     if n > p: return df, None
     

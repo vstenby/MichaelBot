@@ -114,10 +114,11 @@ class Music(commands.Cog):
         if arg == 'all': arg = bank(str(ctx.author), self.df)
     
         #Try to check if the argument is between 0 and 1.
-        try:
-            arg = float(arg)
-            if 0 < arg and arg < 1:
-                arg = arg * bank(str(ctx.author), self.df)
+        #try:
+        #    arg = float(arg)
+        #    if 0 < arg and arg < 1:
+        #        arg = arg * bank(str(ctx.author), self.df)
+            
                 
         
         try:
@@ -147,9 +148,10 @@ class Music(commands.Cog):
     @commands.command(brief = 'Graph your MichaelBucks')
     async def graph(self, ctx):
         #Generates the graph based on the user.
-        graph(str(ctx.author), self.df)
-        asyncio.sleep(0.5)
-        await ctx.channel.send(file=discord.File('./resources/other/temp.png'))
+         await ctx.channel.send('ja - god snak.')
+    #    graph(str(ctx.author), self.df)
+    #    asyncio.sleep(0.5)
+    #    await ctx.channel.send(file=discord.File('./resources/other/temp.png'))
 
     @commands.command(brief = 'Send MichaelBucks to a friend')
     async def donate(self, ctx, amount : int, reciever : discord.Member):
@@ -233,21 +235,6 @@ class Music(commands.Cog):
             msg = custom_msg('unknown_mp3')
             await ctx.channel.send(msg)
   
-  
-    #@commands.command(brief='Gamble your hard earned MichaelBucks')
-    #async def roll(self, ctx, *, arg):
-    #    try:
-    #        val = int(arg)
-    #    except:
-    #        await ctx.channel.send('Du skal indtaste et beløb, du gerne vil rolle.')
-
-    #@commands.command(brief='List all members')
-    #async def addpoints(self, ctx):
-    #df_points = load_points()
-    #    members = self.channel.members
-    #    df_points = add_points(df_points, members)
-    #save_points(df_points)
-
     @tasks.loop(seconds=10)
     async def save(self):
         print('Points are saved')

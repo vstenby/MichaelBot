@@ -8,8 +8,22 @@ from functions import *
 import asyncio
 import time
 import csv
+import pandas as pd
+from datetime import datetime
 
+def add_points(df, members):
+    #Fetches the users
+    user = members
+    user = [str(x) for x in members if str(x) != 'MichaelBot#8980']
 
+    time = datetime.now()
+    ts = time.strftime("%m/%d/%Y, %H:%M:%S")
+
+    df = df.append(pd.DataFrame({'User' : user,
+                            'Point' : [1] * len(user),
+                            'Timestamp' : [ts] * len(user),
+                            'Reason' : [''] * len(user)}))
+    return df
 
 def is_connected(ctx):
     voice_client = get(ctx.bot.voice_clients, guild=ctx.guild)
@@ -58,9 +72,8 @@ class Music(commands.Cog):
         self.counter = 0
         self.server = None
         self.pointcounter = 1
-
-    def cog_unload(self):
-        self.play_music.cancel()
+        self.df = load_points()
+        self.save.start()
 
 
     @commands.command(brief='MichaelBot joins your server.')
@@ -93,6 +106,62 @@ class Music(commands.Cog):
         await ctx.channel.send(url + ' er nu i queue!')
         add_to_queue(path)
         print(url + ' added to queue.')
+
+    @commands.command(brief = 'Gamble your hard earned MichaelBucks')
+    async def gamble(self, ctx, arg):
+        try:
+            n = int(arg)
+            if n <= 0:
+                await ctx.channel.send('Du kan ikke gamble et negativt antal.')
+                return
+
+            self.df, val = gamble(str(ctx.author), self.df, n)
+            if val is None:
+                await ctx.channel.send('Du kan ikke gamble med så meget.')
+            elif val is True:
+                #The bet is won
+                await ctx.channel.send('Tillykke, du har vundet ' + str(n) + ' MichaelBucks.')
+            elif val is False:
+                #The bet is lost
+                await ctx.channel.send('Desværre kammerat - du har tabt ' + str(n) + ' MichaelBucks.')
+
+        except:
+            await ctx.channel.send('Forkert indtastning.')
+
+    @commands.command(brief = 'Check how many MichaelBucks you have in the bank.')
+    async def bank(self, ctx):
+        p = bank(str(ctx.author), self.df)
+        await ctx.channel.send('Du har ' + str(p) + ' MichaelBucks til rådighed.')
+
+    @commands.command(brief = 'Graph your MichaelBucks')
+    async def graph(self, ctx):
+        #Generates the graph based on the user.
+        graph(str(ctx.author), self.df)
+        asyncio.sleep(1)
+        await ctx.channel.send(file=discord.File('./resources/other/temp.png'))
+
+    @commands.command(brief = 'Send MichaelBucks to a friend')
+    async def donate(self, ctx, amount : int, reciever : discord.Member):
+        sender = ctx.author
+        sender_str = str(ctx.author)
+        reciever_str = str(reciever)
+        if amount <= 0:
+            await ctx.channel.send('Du kan ikke sende et negativt beløb.')
+        else:
+            self.df, rtrn = donate_points(sender_str, reciever_str, amount, self.df)
+            if rtrn is True:
+                await ctx.channel.send('Overførslen er gået igennem!')
+            elif rtrn == -1:
+                await ctx.channel.send('Så mange penge har du ikke, mester')
+            elif rtrn == -2:
+                await ctx.channel.send('Ukendt modtager.')
+            else:
+                print('Something else is wrong.')
+
+    @commands.command(brief = 'Prints the highscore')
+    async def highscore(self, ctx):
+        s = highscore(self.df)
+        await ctx.channel.send(s)
 
     @commands.command(brief = 'Removes the queue', hidden=True)
     async def rmqueue(self, ctx):
@@ -129,7 +198,7 @@ class Music(commands.Cog):
             if self.vc.is_playing():
                 self.vc.stop()
 
-    @commands.command(brief='Play local song files.')
+    @commands.command(brief='Play local song files. _mb pl list to get list of mp3s.')
     async def pl(self, ctx, *, arg):
         mp3s = load_mp3s()
         mp3 = str_to_mp3(arg, mp3s)
@@ -160,12 +229,18 @@ class Music(commands.Cog):
     #    except:
     #        await ctx.channel.send('Du skal indtaste et beløb, du gerne vil rolle.')
 
-    @commands.command(brief='List all members')
-    async def addpoints(self, ctx):
-        df_points = load_points()
-        members = self.channel.members
-        df_points = add_points(df_points, members)
-        save_points(df_points)
+    #@commands.command(brief='List all members')
+    #async def addpoints(self, ctx):
+    #df_points = load_points()
+    #    members = self.channel.members
+    #    df_points = add_points(df_points, members)
+    #save_points(df_points)
+
+    @tasks.loop(seconds=10)
+    async def save(self):
+        save_points(self.df)
+        print('Points are saved')
+
 
     @tasks.loop(seconds=1)
     async def play_music(self):
@@ -173,8 +248,14 @@ class Music(commands.Cog):
             if self.vc.is_playing():
                 self.counter = 0
                 self.pointcounter += 1
-                
-                if self.pointcounter == 10: self.pointcounter = 0
+                if self.pointcounter == 5:
+                    print('Point should be added.')
+                    self.df = add_points(self.df, self.channel.members)
+                    #print('Points added')
+                    print(self.df)
+                    #print(self.df)
+                elif self.pointcounter == 10:
+                    self.pointcounter = 0
 
             elif not is_queue_empty():
                 #The bot is not playing and the queue is not empty. We should play the next song.

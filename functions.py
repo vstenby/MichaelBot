@@ -9,7 +9,6 @@ import youtube_dl
 import csv
 from datetime import datetime
 
-
 def load_mp3s():
     file = open('./resources/txt/str_to_mp3.txt', 'r')
     lines = file.readlines()
@@ -29,8 +28,6 @@ def list_mp3s():
             s = s + '\n'
     s = s + '```'
     return s
-    
-    
     
     
 def rand_mp3(mp3):
@@ -276,20 +273,7 @@ def is_queue_empty():
 def init_points():
     df = pd.DataFrame({'User' : [], 'Point' : [], 'Timestamp' : [], 'Reason' : []})
     df.to_excel('./resources/other/point_history.xlsx')
-    
-def add_points(df, members):
-    user = [x for x in members if x != 'MichaelBot#8980']
-    print(user)
-    time = datetime.now()
-    ts = time.strftime("%m/%d/%Y, %H:%M:%S")
-    
-    
-    df = df.append(pd.DataFrame({'User' : user, 
-                            'Point' : [1] * len(user), 
-                            'Timestamp' : [ts] * len(user),
-                            'Reason' : [''] * len(user)}))
-    return df
-    
+        
 def save_points(df):
     df.to_excel('./resources/other/point_history.xlsx', index=False)
                    
@@ -297,5 +281,92 @@ def load_points():
     df = pd.read_excel('./resources/other/point_history.xlsx')
     return df
 
+def gamble(user, df, n):
+    #Available points
+    p = np.sum(df['Point'].loc[df['User'] == user])
+    
+    time = datetime.now()
+    ts = time.strftime("%m/%d/%Y, %H:%M:%S")
+    
+    if type(n) is str:
+        if n.lower() == 'max':
+            n = p
+    
+    if n > p: return df, None
+    
+    #Coin is flipped.
+    c = random.randint(0,1)
+    
+    if c:
+        rtrn = n
+    else:
+        rtrn = -n
+    
+    if rtrn > 0: 
+        rson = 'Won a gamble with ' + str(n)
+    else:
+        rson = 'Lost a gamble with ' + str(n)
+        
+    df = df.append(pd.DataFrame({'User' : user, 'Point' : rtrn, 'Timestamp' : ts, 'Reason' : rson}, index=[0]))
+    
+    return df, rtrn > 0
 
+def bank(user, df):
+    #Returns the amount the person has in the pocket.
+    p = np.sum(df['Point'].loc[df['User'] == user])
+    return p
+
+def graph(user, df):
+    #Plots a users MichaelBucks.
+    import matplotlib.pyplot as plt
+    points = df['Point'].loc[df['User'] == user]
+    ts = df['Timestamp'].loc[df['User'] == user]
+    fix, ax = plt.subplots(1)
+    
+    ax.plot(ts, np.cumsum(points))
+    
+    ax.set_xlabel('Tid')
+    ax.set_xticklabels([])
+    plt.title('Pointoversigt for ' + user)
+    
+    plt.savefig('./resources/other/temp.png')   
+    
+def donate_points(user1, user2, v, df):
+    #Donates from User 1 to User 2.
+    p = bank(user1, df)
+    if v > p: 
+        #User 1 cannot send that much money.
+        rtrn = False
+        return df, -1
+    
+    if not np.isin(user2, df['User']):
+        #Unknown reciever
+        rtrn = False
+        return df, -2
+    
+    else:
+        time = datetime.now()
+        ts = time.strftime("%m/%d/%Y, %H:%M:%S")
+        df = df.append(pd.DataFrame({'User' : [user1, user2], 'Point' : [-v, v], 'Timestamp' : [ts] * 2, 'Reason' : ['Donated ' + str(v) + ' to ' + user2, 'Recieved ' + str(v) + ' from ' + user1]}))
+        rtrn = True
+        return df, rtrn
+
+def highscore(df):
+    #Returns the 5 highest scores
+    df_temp = df.groupby(["User"]).sum().reset_index()
+    df_temp = df_temp.sort_values(by=['Point'], ascending=False)
+    users = df_temp['User'].iloc[0:5]
+    points = df_temp['Point'].iloc[0:5]
+    users = list(users)
+    points = list(points)
+    
+    time = datetime.now()
+    ts = time.strftime("%d/%m/%Y, %H:%M:%S")
+    
+    s = '```\n'
+    s = s + 'MichaelBucks - highscore for ' + ts + ' \n\n'
+    for i in range(len(users)):
+        s = s + str(i+1) + ': ' + users[i] + ' med ' + str(points[i]) + ' MichaelBucks.\n'
+    s = s + '\n```'
+    return s
 

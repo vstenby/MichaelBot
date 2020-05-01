@@ -51,9 +51,8 @@ for filename in os.listdir('./cogs'):
 async def on_ready():
     print('MichaelBot is online!')
 
-
 #Make sure you have credentials.txt in your folder when running the bot.
-#This can be gotten from Discord's developer site.
+#This is from the Discord's developer site.
 with open('credentials.txt', 'r') as file:
     credentials = file.read().replace('\n','')
     file.close()

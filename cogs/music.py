@@ -107,8 +107,19 @@ class Music(commands.Cog):
         add_to_queue(path)
         print(url + ' added to queue.')
 
+    
     @commands.command(brief = 'Gamble your hard earned MichaelBucks')
     async def gamble(self, ctx, arg):
+        
+        if arg == 'all': arg = bank(str(ctx.author), self.df)
+    
+        #Try to check if the argument is between 0 and 1.
+        try:
+            arg = float(arg)
+            if 0 < arg and arg < 1:
+                arg = arg * bank(str(ctx.author), self.df)
+                
+        
         try:
             n = int(arg)
             if n <= 0:
@@ -137,7 +148,7 @@ class Music(commands.Cog):
     async def graph(self, ctx):
         #Generates the graph based on the user.
         graph(str(ctx.author), self.df)
-        asyncio.sleep(1)
+        asyncio.sleep(0.5)
         await ctx.channel.send(file=discord.File('./resources/other/temp.png'))
 
     @commands.command(brief = 'Send MichaelBucks to a friend')
@@ -221,7 +232,8 @@ class Music(commands.Cog):
         else:
             msg = custom_msg('unknown_mp3')
             await ctx.channel.send(msg)
-
+  
+  
     #@commands.command(brief='Gamble your hard earned MichaelBucks')
     #async def roll(self, ctx, *, arg):
     #    try:
@@ -238,9 +250,8 @@ class Music(commands.Cog):
 
     @tasks.loop(seconds=10)
     async def save(self):
-        save_points(self.df)
         print('Points are saved')
-
+        save_points(self.df)
 
     @tasks.loop(seconds=1)
     async def play_music(self):
@@ -249,11 +260,8 @@ class Music(commands.Cog):
                 self.counter = 0
                 self.pointcounter += 1
                 if self.pointcounter == 5:
-                    print('Point should be added.')
+                    #Add points every 10 seconds.
                     self.df = add_points(self.df, self.channel.members)
-                    #print('Points added')
-                    print(self.df)
-                    #print(self.df)
                 elif self.pointcounter == 10:
                     self.pointcounter = 0
 

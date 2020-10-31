@@ -1,6 +1,2 @@
-Mat1Guessr/
-credentials.txt
-resources/bom1_export
-*.gif
-*.mp3
-*.mp4
+.env
+.DS_Store

@@ -1,60 +1,54 @@
-#Packages
+# bot.py
+import os
+from dotenv import load_dotenv
+
+from discord.ext import commands
+import sys, traceback
+
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
+
 import discord
 from discord.ext import commands
-import time
-import datetime
-import pandas as pd
-import numpy as np
-import os
-import random
 
-#Auxillary functions.
-from functions import *
+import sys, traceback
 
-#Set the prefix of the bot here.
-prefix = '_mb '
-client = commands.Bot(command_prefix = prefix)
+"""This is a multi file example showcasing many features of the command extension and the use of cogs.
+These are examples only and are not intended to be used as a fully functioning bot. Rather they should give you a basic
+understanding and platform for creating your own bot.
 
-@client.event
-async def on_member_join(member):
-    print(f'Velkommen til bænken, {member}.'.encode('utf-8'))
+These examples make use of Python 3.6.2 and the rewrite version on the lib.
 
-#Loads extentions (i.e. cogs)
-@client.command(brief='Loads extentions')
-async def load(ctx, extension):
-    client.load_extension(f'cogs.{extension}')
-    print(extension + ' sucessfully loaded')
+For examples on cogs for the async version:
+https://gist.github.com/leovoel/46cd89ed6a8f41fd09c5
 
-@client.command(brief='Unloads extentions')
-async def unload(ctx, extension):
-    client.unload_extension(f'cogs.{extension}')
-    print(extension + ' sucessfully unloaded')
+Rewrite Documentation:
+http://discordpy.readthedocs.io/en/rewrite/api.html
 
-@client.command(brief = 'Reloads extentions')
-async def reload(ctx, extension):
-    client.unload_extension(f'cogs.{extension}')
-    client.load_extension(f'cogs.{extension}')
-    print(extension + ' succesfully reloaded')
+Rewrite Commands Documentation:
+http://discordpy.readthedocs.io/en/rewrite/ext/commands/api.html
 
-@client.command(brief = 'Reboots MichaelBot', hidden=True)
-async def reboot(ctx):
-    import sys
-    print('MichaelBot is rebooting...')
-    os.execv(sys.executable, ['python'] + sys.argv)
+Familiarising yourself with the documentation will greatly help you in creating your bot and using cogs.
+"""
 
-#Loads all of the extentions upon starting.
-for filename in os.listdir('./cogs'):
-    if filename.endswith('.py'):
-        client.load_extension(f'cogs.{filename[:-3]}')
+#Cogs to be imported.
+initial_extensions = ['cogs.simple', 'cogs.speech']
 
-@client.event
+bot = commands.Bot(command_prefix='_mb ', description='Michael Bot')
+
+#Load all of the extensions.
+if __name__ == '__main__':
+    for extension in initial_extensions:
+        bot.load_extension(extension)
+
+@bot.event
 async def on_ready():
-    print('MichaelBot is online!')
+    """http://discordpy.readthedocs.io/en/rewrite/api.html#discord.on_ready"""
 
-#Make sure you have credentials.txt in your folder when running the bot.
-#This is from the Discord's developer site.
-with open('credentials.txt', 'r') as file:
-    credentials = file.read().replace('\n','')
-    file.close()
+    print(f'\n\nLogged in as: {bot.user.name} - {bot.user.id}\nVersion: {discord.__version__}\n')
 
-client.run(credentials)
+    # Changes our bots Playing Status. type=1(streaming) for a standard game you could remove type and url.
+    #await bot.change_presence(game=discord.Game(name='Cogs Example', type=1, url='https://twitch.tv/kraken'))
+    #print(f'Successfully logged in and booted...!')
+
+bot.run(TOKEN, bot=True, reconnect=True)

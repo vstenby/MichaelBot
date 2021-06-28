@@ -13,12 +13,8 @@ from discord.ext import commands
 
 import sys, traceback
 
-bot = commands.Bot(command_prefix='_mb ', description='Michael Bot')
 
-#Load all of the extensions.
-#if __name__ == '__main__':
-#    for extension in cogs:
-#        bot.load_extension(extension)
+bot = commands.Bot(command_prefix='_mb ', description='MichaelBot')
 
 @bot.event
 async def on_ready():

@@ -28,34 +28,49 @@ class QuotesCog(commands.Cog):
 # 
 #         else:
 #             await ctx.channel.send('Du er ikke engang selv i en channel...')
-
-    @commands.command(name='p',aliases=['pl','play'])
-    async def _p(self, ctx: commands.Context, *, channel: discord.VoiceChannel = None):
-        """ Plays a quote """
-        if ctx.message.author.voice:
-            self.channel = ctx.message.author.voice.channel
-            self.vc      = await self.channel.connect()
-            self.server  = ctx.message.guild.voice_client
-
-            self.vc.play(discord.FFmpegPCMAudio('dadaa.mp4'))
-            while self.vc.is_playing():
-                await asyncio.sleep(1)
-
-            self.vc.stop()
-            await ctx.voice_client.disconnect()
-            
     @commands.command(name='t')
-    async def _t(self, ctx, *, arg):
-        """ Test """
+    async def _t(self, ctx):
+        """ Test function. """
         
-        argin = ctx.message.content.replace('_mb t ','').lower()
+        ids = []; names = [];
+        for guild in self.bot.guilds:
+            for member in guild.members:
+                id = member.id
+                name = member.name
+                if member.status == discord.Status.online:
+                    ids.append(id)
+                    names.append(name)
+        
+        ids = np.unique(ids)
+        names = np.unique(names)
+        for id, name in zip(ids, names):
+            print(f'{id} : {name}')
+            
+        print(f'len(id):{len(ids)}, len(names):{len(names)}')
+        print(f'type(id):{type(ids[0])}, type(name):{type(names[0])}')
+                
+    @commands.command(name='y')
+    async def _y(self, ctx):
+        """ Test function 2 """
+        print(ctx.message.author.id)
+
+    @commands.command(name='p', aliases=['pl','play'])
+    async def _p(self, ctx, *, arg):
+        """ Plays a quote. """
+        
+        path = ''
+        argin = ctx.message.content.replace('_mb p ','').lower()
         
         #Check if the message contains "kan i se det":
         if 'kan i se det' in argin:
-            path = './resources/audio/kanisedet/' + np.random.choice(os.listdir('./resources/audio/kanisedet'))
-            
+            path = './resources/kanisedet/' + np.random.choice(os.listdir('./resources/kanisedet'))
+        elif argin == 'aah':
+            path = './resources/soundfiles/Ahh.mp4'
+        else:
+            print('Unknown quote.')
+        
         #Play the audio
-        if ctx.message.author.voice:
+        if ctx.message.author.voice and path != '':
             self.channel = ctx.message.author.voice.channel
             self.vc      = await self.channel.connect()
             self.server  = ctx.message.guild.voice_client

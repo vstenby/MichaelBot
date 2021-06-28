@@ -14,9 +14,10 @@ from discord.ext import commands
 import sys, traceback
 
 #Import cogs
-cogs = ['cogs.quotes']
+cogs = ['cogs.quotes', 'cogs.gamble']
 
-bot = commands.Bot(command_prefix='_mb ', description='Michael Bot')
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix='_mb ', description='Michael Bot', intents=intents)
 
 #Load all of the extensions.
 if __name__ == '__main__':
